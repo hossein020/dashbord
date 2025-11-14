@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Weather.css"; // برای استایل ساده
 
 export default function Weather() {
   const [city, setCity] = useState('');
@@ -19,16 +20,15 @@ export default function Weather() {
     setError(false);
 
     try {
-      // 🌟 URL داخل backtick تا ${city} و ${API_KEY} جایگزین شوند
-     const res = await fetch(
-  `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-);
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+      );
+
       if (!res.ok) {
-        throw new Error('City not found');
+        throw new Error("City not found");
       }
 
       const data = await res.json();
-      console.log(data); // بررسی داده دریافتی
       setWeatherData(data);
     } catch (err) {
       setError(true);
@@ -38,28 +38,36 @@ export default function Weather() {
     }
   };
 
+  // واکنش به Enter
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") searchHandler();
+  };
+
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+    <div className="weather-container">
+      <div className="weather-input">
         <input
           type="text"
-          placeholder="Enter your city please..."
+          placeholder="Enter your city..."
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          style={{ flex: 1, padding: '8px' }}
+          onKeyDown={handleKeyDown}
         />
-        <button onClick={searchHandler} style={{ padding: '8px 12px' }}>Search</button>
+        <button onClick={searchHandler}>Search</button>
       </div>
 
-      {/* نمایش شرطی */}
-      <div style={{ marginTop: '20px' }}>
-        {loading && <p>در حال دریافت اطلاعات...</p>}
-        {error && <p style={{ color: 'red' }}>لطفاً یک شهر معتبر وارد کنید</p>}
+      <div className="weather-result">
+        {loading && <p className="loading">در حال دریافت اطلاعات...</p>}
+        {error && <p className="error">لطفاً یک شهر معتبر وارد کنید</p>}
         {weatherData && !loading && !error && (
-          <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '8px' }}>
-            <h3>شهر: {weatherData.name}</h3>
+          <div className="weather-card">
+            <h3>{weatherData.name}</h3>
             <p>دما: {weatherData.main.temp}°C</p>
             <p>وضعیت هوا: {weatherData.weather[0].main}</p>
+            <img
+              src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+              alt={weatherData.weather[0].description}
+            />
           </div>
         )}
       </div>

@@ -1,0 +1,48 @@
+.weather-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 15px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.weather-input input {
+  padding: 8px;
+  width: 70%;
+  margin-right: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.weather-input button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.weather-input button:hover {
+  background: #0056b3;
+}
+
+.weather-result {
+  margin-top: 20px;
+}
+
+.weather-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.loading {
+  color: #333;
+}
+
+.error {
+  color: red;
+}
